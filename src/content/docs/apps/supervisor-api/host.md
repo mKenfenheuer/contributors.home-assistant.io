@@ -293,6 +293,7 @@ Updates the Raspberry Pi firmware to the version that comes with the OS. Returns
 | --- | --- | --- |
 | `GET` | `/hardware/info` | Devices and drives |
 | `GET` | `/hardware/audio` | Audio devices |
+| `GET` | `/hardware/gpu` | GPUs with current statistics |
 
 ### `GET /hardware/info`
 
@@ -316,6 +317,42 @@ Returns the audio devices of the host, by name and description.
       "0,1": "HDMI"
     }
   }
+}
+```
+
+### `GET /hardware/gpu`
+
+Returns the GPUs of the host with their current statistics. The values come from the driver, through OS Agent 1.15.0 or newer. Statistics a driver doesn't report are `null`. With an older OS Agent, the list is empty.
+
+| Key | Type | Description |
+| --- | --- | --- |
+| `address` | string | PCI address, like `0000:01:00.0`, or the device name for other buses |
+| `vendor` | string | `amd`, `intel`, `nvidia`, or empty if unknown |
+| `name` | string | Model name |
+| `driver` | string | Kernel driver, like `amdgpu` or `nvidia` |
+| `driver_version` | string | Version of the driver |
+| `utilization` | float or null | Utilization in percent |
+| `memory_used` | int or null | Used video memory in bytes |
+| `memory_total` | int or null | Total video memory in bytes |
+| `temperature` | float or null | Temperature in °C |
+| `power` | float or null | Power draw in W |
+
+```json
+{
+  "gpus": [
+    {
+      "address": "0000:01:00.0",
+      "vendor": "nvidia",
+      "name": "NVIDIA GeForce RTX 3090",
+      "driver": "nvidia",
+      "driver_version": "615.78.08",
+      "utilization": 7.0,
+      "memory_used": 2982150144,
+      "memory_total": 25769803776,
+      "temperature": 34.0,
+      "power": 16.37
+    }
+  ]
 }
 ```
 
