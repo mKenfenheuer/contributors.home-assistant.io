@@ -135,6 +135,7 @@ Returns the details of an app. When the app is not installed, this falls back to
 | `udev` | boolean | Has access to the udev database |
 | `docker_api` | boolean | Has access to the Docker API |
 | `video` | boolean | Has access to video devices |
+| `gpu` | boolean | Has access to GPUs and compute accelerators |
 | `audio` | boolean | Uses the audio system |
 | `startup` | string | `initialize`, `system`, `services`, `application`, or `once` |
 | `services` | list | Services the app provides or uses, like `mqtt:provide` |
