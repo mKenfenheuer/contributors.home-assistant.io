@@ -36,12 +36,23 @@ These options map a whole class of devices, including devices plugged in after t
 | --- | --- |
 | `uart: true` | All serial devices |
 | `usb: true` | Raw USB access, through `/dev/bus/usb` |
-| `video: true` | All video devices |
+| `video: true` | All video devices and GPUs, see [GPU access](#gpu-access) |
 | `gpio: true` | GPIO, through `/sys/class/gpio`. Some libraries also need `/dev/mem` and the `SYS_RAWIO` capability |
 | `udev: true` | The udev database of the host, read-only, to look up device details |
 | `devicetree: true` | The device tree of the host, at `/device-tree` |
 
 On systems with AppArmor, GPIO access usually needs a custom AppArmor profile as well. See [Secure your app](/apps/guides/security/#apparmor).
+
+## GPU access
+
+With `video: true`, your app also gets the GPU of the host for compute, like running a local LLM or speech model, or for hardware video transcoding:
+
+- `/dev/dri`: the render nodes, for VA-API, Vulkan, and Intel or AMD compute.
+- `/dev/kfd`: the AMD compute driver, needed by ROCm and HIP.
+- `/dev/accel`: compute accelerators, like the Intel NPU.
+- NVIDIA GPUs, when the host provides them through the Container Device Interface (CDI). Docker then adds the device nodes and the driver libraries of the host, like `libcuda.so.1` and `nvidia-smi`, to your container. Your image doesn't ship an NVIDIA driver, only the CUDA runtime it needs, for example from a `nvidia/cuda` base image.
+
+The user space for AMD and Intel GPUs, like ROCm, Mesa, or oneAPI, is part of your image. On Home Assistant OS, NVIDIA needs the `nvidia` or `nvidia-legacy` variant of the OS. If Docker can't add the NVIDIA GPUs, the app starts without them, so make your app fall back to the CPU.
 
 ## Audio
 

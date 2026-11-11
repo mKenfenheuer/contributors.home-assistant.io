@@ -159,7 +159,7 @@ Older names are still accepted, with a warning: `addons` for `local_apps` (mount
 | `gpio` | bool | `false` | Map `/sys/class/gpio` into the container, on systems that support it. |
 | `udev` | bool | `false` | Mount the udev database of the host (`/run/udev`), read-only. |
 | `devicetree` | bool | `false` | Mount the device tree of the host at `/device-tree`. |
-| `video` | bool | `false` | Give access to all video devices. |
+| `video` | bool | `false` | Give access to all video devices and GPUs: `/dev/dri`, `/dev/kfd`, `/dev/accel`, and NVIDIA GPUs provided by the host through CDI. See [GPU access](/apps/guides/hardware/#gpu-access). |
 | `audio` | bool | `false` | Connect the app to the audio system of Home Assistant, through PulseAudio. |
 | `kernel_modules` | bool | `false` | Mount the kernel modules of the host (`/lib/modules`), read-only, and add the `SYS_MODULE` capability. |
 | `full_access` | bool | `false` | Give full access to all hardware. Only works with protection mode off. Do not combine it with `devices`, `uart`, `usb`, or `gpio`; those are ignored. |
