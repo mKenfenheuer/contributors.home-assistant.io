@@ -180,6 +180,8 @@ These only work on Home Assistant OS.
 | `version_pending` | string or null | Version that is installed but waits for a reboot |
 | `update_available` | boolean | `true` if an update is available |
 | `board` | string | Board name, like `generic-x86-64` or `yellow` |
+| `variant` | string or null | OS variant of the running version, like `nvidia`. Null for the OS without variant |
+| `variants` | list | OS variants available for the board, like `nvidia` and `nvidia-legacy` on `generic-x86-64` and `ova` |
 | `boot` | string | Active boot slot |
 | `data_disk` | string | ID of the data disk |
 | `boot_slots` | dictionary | Per boot slot (`A` and `B`) a [boot slot model](/apps/supervisor-api/models/#boot-slot). Use these names for `POST /os/boot-slot` |
@@ -189,6 +191,9 @@ These only work on Home Assistant OS.
 | Key | Type | Required | Description |
 | --- | --- | --- | --- |
 | `version` | string | No | Version to install. Default is the latest version |
+| `variant` | string or null | No | OS variant to switch to, null for the OS without variant. Default is the installed variant. With a different variant, the running version can be installed again |
+
+An OS variant shares the root file system of its board and adds a system extension, like the NVIDIA driver. Its update bundle carries the extension.
 
 Installs the update into the inactive slot, and returns. It does not reboot: the new version waits in `version_pending` of `GET /os/info` until the system reboots, for example with `POST /host/reboot`. Until then, `version` is still the running version. For Home Assistant Core versions older than 2026.8, `version` reports the pending version instead, so the update is not offered again.
 
