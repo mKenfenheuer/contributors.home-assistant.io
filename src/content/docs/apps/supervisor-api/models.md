@@ -101,6 +101,14 @@ Resource usage of a container.
 | `network_tx` | integer | Bytes sent |
 | `blk_read` | integer | Bytes read from disk |
 | `blk_write` | integer | Bytes written to disk |
+| `gpu_memory_usage` | integer or null | GPU memory use in bytes, `null` if the container uses no GPU |
+| `gpu_memory_limit` | integer or null | Memory of the GPUs the container uses in bytes, `null` if unknown |
+| `gpu_memory_percent` | float or null | GPU memory use in percent of `gpu_memory_limit` |
+| `gpu_percent` | float or null | Utilization of the busiest GPU the container uses in percent, `null` if the driver doesn't report it per process |
+
+The GPU values come from OS Agent and need Home Assistant OS. For NVIDIA GPUs
+they cover compute processes, for other GPUs every process with an open DRM
+device.
 
 ## Service
 
